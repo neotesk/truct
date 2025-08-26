@@ -23,15 +23,22 @@ jobs:
                 name: Build the release binaries
                 run: ./build/debug/truct do
             -
-                name: Create a release
-                run: |
-                    set -x
-                    assets=()
-                    for asset in ./build/release/*; do
-                        assets+=("-a" "$asset")
-                    done
-                    tag_name="${GITHUB_REF##*/}"
-                    sudo apt install hub
-                    hub release create "${assets[@]}" -m "$tag_name" "$tag_name"
+                name: Create Release
+                id: create_release
+                uses: actions/create-release@v1
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    tag_name: ${{ github.ref }}
+                    release_name: Release ${{ github.ref }}
+                    draft: false
+                    prerelease: false
+            -
+                name: Upload Release Assets
+                id: upload-release-assets
+                uses: dwenegar/upload-release-assets@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    release_id: ${{ steps.create_release.outputs.id }}
+                    assets_path: build/release
