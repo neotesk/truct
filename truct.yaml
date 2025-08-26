@@ -1,0 +1,70 @@
+project:
+    name: Truct
+    description: Pretty minimal project manager.
+    source: https://github.com/neotesk/truct
+
+.build-target:
+    expects:
+        -
+            name: archtarget
+            optional: true
+            value: "{{os.arch}}"
+        -
+            name: ostarget
+            optional: true
+            value: "{{os.type}}"
+        -
+            name: output
+            optional: true
+            value: "debug"
+    description: 'Builds a target'
+    actions:
+        -
+            action: shell
+            env:
+                GOARCH: "{{$.archtarget}}"
+                GOOS: "{{$.ostarget}}"
+            cmdlines:
+                - echo "-> Building for {{$.ostarget}} ({{$.archtarget}})"
+                - go build -o build/release/truct.{{$.output}} src/*.go
+
+.build-debug:
+    description: 'Builds a target for debugging'
+    actions:
+        -
+            action: shell
+            cmdlines:
+                - echo "-> Building for {{os.type}} ({{os.arch}}) for debugging"
+                - go build -o build/debug/truct src/*.go
+
+
+.build:
+    description: 'Builds the entire target in one command'
+    actions:
+        -
+            action: mkdir
+            destination: build/debug
+        -
+            action: mkdir
+            destination: build/release
+        - build-debug
+        - build-target amd64 linux linux-amd64
+        - build-target 386 linux linux-i386
+        - build-target arm linux linux-arm32
+        - build-target arm64 linux linux-arm64
+        - build-target riscv64 linux linux-riscv64
+        - build-target mips linux linux-mips
+        - build-target mipsle linux linux-mipsle
+        - build-target mips64 linux linux-mips64
+        - build-target mips64le linux linux-mips64le
+        - build-target ppc64 linux linux-ppc64
+        - build-target loong64 linux linux-loong64
+        - build-target amd64 darwin darwin-amd64
+        - build-target arm64 darwin darwin-arm64
+        - build-target arm64 android android-arm64
+        - build-target amd64 freebsd freebsd-amd64
+        - build-target 386 freebsd freebsd-i386
+        - build-target arm64 freebsd freebsd-arm64
+        - build-target amd64 windows windows-amd64.exe
+        - build-target 386 windows windows-i386.exe
+        - build-target arm64 windows windows-arm64.exe

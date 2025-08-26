@@ -1,23 +1,23 @@
 <h1>Truct<img align="left" width="42" height="42" alt="logo" src="https://github.com/user-attachments/assets/1a8052d1-924c-4799-9037-8a7c6ac5fc68" /></h1>
 
-Truct[^1] is a pretty minimal project manager, allowing you to store your tasks inside one single
-Truct file (generally stored as `truct.trml`) which has a similar syntax compared to YAML[^2], this
-way it will be readable for humans! Compared to other systems like Make[^3], Truct aims to be simple
-and beginner-friendly for small projects.
+Truct[^1] is a pretty minimal workflow manager, allowing you to store your tasks inside one single
+Truct file (generally stored as `truct.yaml`) which is a YAML[^2] file, this way it will be readable
+for humans! Compared to other systems like Make[^3], Truct aims to be simple and beginner-friendly
+for small projects.
 
 > [!WARNING]
 > Truct is currently Work-In-Progress. Please check [milestones](https://github.com/neotesk/truct/milestones) for more information.
 
 ### Installation
 You can install Truct manually through the [Releases](https://github.com/neotesk/truct/releases)
-section. Currently there are builds only for Linux[^4] operating system. However I am planning
-to create cross-platform releases (Windows[^5], macOS[^6] etc.)
+section. Currently there are builds only for *Nix operating systems (Linux[^4], macOS[^6] etc)
+and Windows[^5].
 
 ### Why does this exist?
 This exists because I like making small projects that will make my job easier and I don't want to
 adapt to many many other systems on the current market, so I like to combine my favorite parts of
 these systems into one single unit, thus many of my projects have born into existence. Truct is
-one of them since I only needed a simple project manager that does basic work and nothing else.
+one of them since I only needed a simple workflow manager that does basic work and nothing else.
 
 [^1]: Truct comes from "construct" in English.
 [^2]: [YAML](https://en.wikipedia.org/wiki/YAML) is a human-readable markup language, stands for "Yet Another Markup Language"
