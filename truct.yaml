@@ -25,7 +25,6 @@ project:
                 GOARCH: "{{$.archtarget}}"
                 GOOS: "{{$.ostarget}}"
             cmdlines:
-                - echo "-> Building for {{$.ostarget}} ({{$.archtarget}})"
                 - go build -o build/release/truct.{{$.output}} src/*.go
 
 .build-debug:
@@ -34,7 +33,6 @@ project:
         -
             action: shell
             cmdlines:
-                - echo "-> Building for {{os.type}} ({{os.arch}}) for debugging"
                 - go build -o build/debug/truct src/*.go
 
 
