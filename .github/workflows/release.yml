@@ -20,16 +20,25 @@ jobs:
                 name: Build the bootstrap binary
                 run: go build -o build/debug/truct src/args.go src/program.go src/main.go
             -
-                name: Set artifacts directory
-                id: artifactsPath
-                run: echo "::set-output name=go_artifacts::${{github.workspace}}/build/release"
-            -
                 name: Build the release binaries
                 run: ./build/debug/truct do
             -
-                name: Upload artifacts
-                uses: actions/upload-artifact@v4
+                name: Create Release
+                id: create_release
+                uses: actions/create-release@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 with:
-                    name: truct
-                    path: |
-                        ${{steps.artifactsPath.outputs.go_artifacts}}/*
+                    tag_name: ${{ github.ref }}
+                    release_name: Release ${{ github.ref }}
+                    draft: false
+                    prerelease: false
+            -
+                name: Upload Release Assets
+                id: upload-release-assets
+                uses: dwenegar/upload-release-assets@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    release_id: ${{ steps.create_release.outputs.id }}
+                    assets_path: build/release
