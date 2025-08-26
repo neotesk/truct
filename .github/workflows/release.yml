@@ -1,0 +1,35 @@
+name: Build Truct and Release
+
+on:
+    push:
+        tags:
+            - '*'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                uses: actions/checkout@v4
+            -
+                name: Setup Go 1.24.5
+                uses: actions/setup-go@v5
+                with:
+                    go-version: '1.24.5'
+            -
+                name: Build the bootstrap binary
+                run: go build -o build/debug/truct src/args.go src/program.go src/main.go
+            -
+                name: Set artifacts directory
+                id: artifactsPath
+                run: echo "::set-output name=go_artifacts::${{github.workspace}}/build/release"
+            -
+                name: Build the release binaries
+                run: ./build/debug/truct do
+            -
+                name: Upload artifacts
+                uses: actions/upload-artifact@v4
+                with:
+                    name: truct
+                    path: |
+                        ${{steps.artifactsPath.outputs.go_artifacts}}/*
