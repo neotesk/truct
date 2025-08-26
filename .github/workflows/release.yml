@@ -17,12 +17,16 @@ jobs:
                 with:
                     go-version: '1.24.5'
             -
+                name: Install hub
+                uses: geertvdc/setup-hub@master
+            -
                 name: Build the bootstrap binary
                 run: go build -o build/debug/truct src/args.go src/program.go src/main.go
             -
                 name: Build the release binaries
                 run: ./build/debug/truct do
             -
+                name: Create a release
                 run: |
                     set -x
                     assets=()
