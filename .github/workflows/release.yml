@@ -17,9 +17,6 @@ jobs:
                 with:
                     go-version: '1.24.5'
             -
-                name: Install hub
-                uses: geertvdc/setup-hub@master
-            -
                 name: Build the bootstrap binary
                 run: go build -o build/debug/truct src/args.go src/program.go src/main.go
             -
@@ -34,6 +31,7 @@ jobs:
                         assets+=("-a" "$asset")
                     done
                     tag_name="${GITHUB_REF##*/}"
+                    sudo apt install hub
                     hub release create "${assets[@]}" -m "$tag_name" "$tag_name"
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
