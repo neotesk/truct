@@ -18,7 +18,7 @@ This exists because I like making small projects that will make my job easier an
 adapt to many many other systems on the current market, so I like to combine my favorite parts of
 these systems into one single unit, thus many of my projects have born into existence. Truct is
 one of them since I only needed a simple workflow manager that does basic work and nothing else.
-For more information, please visit the [Truct wiki](https://github.com/neotesk/truct)
+For more information, please visit the [Truct wiki](https://github.com/neotesk/truct/wiki)
 
 [^1]: Truct comes from "construct" in English.
 [^2]: [YAML](https://en.wikipedia.org/wiki/YAML) is a human-readable markup language, stands for "Yet Another Markup Language"
