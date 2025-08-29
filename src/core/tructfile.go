@@ -183,14 +183,20 @@ func CreateRootVarTable ( tructFile Types.TructFile ) map[ string ] string {
         varTable[ "env." + key ] = value;
     }
 
+    // Project Details
+    varTable[ "project.name" ] = tructFile.Project.Name;
+    varTable[ "project.description" ] = tructFile.Project.Description;
+    varTable[ "project.repository" ] = tructFile.Project.Repository;
+    varTable[ "project.version" ] = tructFile.Project.Version;
+
     // Environment Overrides
     for key, value := range tructFile.Environment {
-        varTable[ "env." + key ] = Internal.Make[ string ]( value );
+        varTable[ "env." + key ] = FormatVariables( Internal.Make[ string ]( value ), varTable );
     }
 
     // Variables
     for key, value := range tructFile.Variables {
-        varTable[ "var." + key ] = Internal.Make[ string ]( value );
+        varTable[ "var." + key ] = FormatVariables( Internal.Make[ string ]( value ), varTable );
     }
 
     return varTable;
