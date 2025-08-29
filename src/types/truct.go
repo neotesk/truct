@@ -35,6 +35,7 @@ type Workflow struct {
 
 type TructFileRaw struct {
     Project ProjectDetails
+    ProjectRaw map[ string ] any
     Settings map[ string ] any
     Environment map[ string ] any
     Variables map[ string ] any
@@ -43,6 +44,7 @@ type TructFileRaw struct {
 
 type TructFile struct {
     Project ProjectDetails
+    ProjectRaw map[ string ] any
     Settings TructSettings
     Environment map[ string ] any
     Variables map[ string ] any

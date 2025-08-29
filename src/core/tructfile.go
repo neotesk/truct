@@ -49,6 +49,7 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
 
     tructFile := Types.TructFileRaw {
         Project: Types.ProjectDetails {},
+        ProjectRaw: map[ string ]any {},
         Settings: map[ string ]any {},
         Environment: map[ string ] any {},
         Variables: map[ string ] any {},
@@ -114,6 +115,7 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
                     tructFile.Project.Description = Internal.MakeCoalesce( obj[ "description" ], "Unknown" );
                     tructFile.Project.Version = Internal.MakeCoalesce( obj[ "version" ], "Unknown" );
                     tructFile.Project.Repository = Internal.MakeCoalesce( obj[ "repository" ], "Unknown" );
+                    tructFile.ProjectRaw = obj;
                 case "settings":
                     tructFile.Settings = obj;
                 case "env":
@@ -130,6 +132,7 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
 
     output := Types.TructFile {
         Project: tructFile.Project,
+        ProjectRaw: tructFile.ProjectRaw,
         Environment: tructFile.Environment,
         Variables: tructFile.Variables,
         Workflows: tructFile.Workflows,
@@ -184,10 +187,9 @@ func CreateRootVarTable ( tructFile Types.TructFile ) map[ string ] string {
     }
 
     // Project Details
-    varTable[ "project.name" ] = tructFile.Project.Name;
-    varTable[ "project.description" ] = tructFile.Project.Description;
-    varTable[ "project.repository" ] = tructFile.Project.Repository;
-    varTable[ "project.version" ] = tructFile.Project.Version;
+    for key, value := range tructFile.ProjectRaw {
+        varTable[ "project." + key ] = FormatVariables( Internal.Make[ string ]( value ), varTable );
+    }
 
     // Environment Overrides
     for key, value := range tructFile.Environment {
