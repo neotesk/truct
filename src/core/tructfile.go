@@ -16,6 +16,7 @@ import (
 	"slices"
 	"strings"
 	"time"
+
 	"github.com/goccy/go-yaml"
 	Types "github.com/neotesk/truct/src/types"
 	Internal "github.com/neotesk/truct/src/util"
