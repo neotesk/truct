@@ -10,13 +10,12 @@ package Core
 import (
 	"maps"
 	"os"
-	"time"
 	"path/filepath"
 	"regexp"
 	"runtime"
 	"slices"
 	"strings"
-
+	"time"
 	"github.com/goccy/go-yaml"
 	Types "github.com/neotesk/truct/src/types"
 	Internal "github.com/neotesk/truct/src/util"
@@ -165,7 +164,7 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
     return output;
 }
 
-func CreateRootVarTable () map[ string ] string {
+func CreateRootVarTable ( tructFile Types.TructFile ) map[ string ] string {
     varTable := map[ string ] string {};
 
     // OS Variables
@@ -181,6 +180,16 @@ func CreateRootVarTable () map[ string ] string {
         key := env[ :fIndex ];
         value := env[ fIndex + 1: ];
         varTable[ "env." + key ] = value;
+    }
+
+    // Environment Overrides
+    for key, value := range tructFile.Environment {
+        varTable[ "env." + key ] = Internal.Make[ string ]( value );
+    }
+
+    // Variables
+    for key, value := range tructFile.Variables {
+        varTable[ "var." + key ] = Internal.Make[ string ]( value );
     }
 
     return varTable;

@@ -44,7 +44,7 @@ var Do = Types.Command {
         // Now we will format variables based on environment
         // variables, OS details and much more.
         // Let's start with OS details first.
-        varTable := Core.CreateRootVarTable();
+        varTable := Core.CreateRootVarTable( tructFile );
 
         Core.RunWorkflow( Types.TructWorkflowRunArgs {
             WorkflowName: wfName,
