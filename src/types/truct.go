@@ -62,4 +62,5 @@ type TructWorkflowRunArgs struct {
     WorkflowName string;
     ScopeVariables map[ string ] string;
     CommandLineArgs CommandLineArgs;
+    WorkingDirectory string;
 }

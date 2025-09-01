@@ -279,12 +279,6 @@ func RunAction ( actionDetails map [ string ] any, custDetails Types.TructWorkfl
     actName := Internal.Make[ string ]( actionDetails[ "action" ] );
     act := GetAction( actName );
 
-    cwd, err := os.Getwd();
-    if err != nil {
-        Internal.ErrPrintf( "Fatal Error: Cannot get current working directory for action '%s'.\n", actName );
-        os.Exit( 4 );
-    }
-
     aData := Internal.CopyMap( act.Expects );
     maps.Copy( aData, actionDetails );
 
@@ -292,7 +286,7 @@ func RunAction ( actionDetails map [ string ] any, custDetails Types.TructWorkfl
         aData[ "skipOnError" ] = false;
     }
 
-    Internal.HandleErrorVoid( act.Action( cwd, aData, custDetails ) );
+    Internal.HandleErrorVoid( act.Action( custDetails.WorkingDirectory, aData, custDetails ) );
 }
 
 func RunWorkflow ( wfMain Types.TructWorkflowRunArgs ) {
@@ -322,6 +316,7 @@ func RunWorkflow ( wfMain Types.TructWorkflowRunArgs ) {
                     Flags: wfMain.CommandLineArgs.Flags,
                     TructFile: wfMain.CommandLineArgs.TructFile,
                 },
+                WorkingDirectory: wfMain.WorkingDirectory,
             }
             RunWorkflow( cust );
             continue;

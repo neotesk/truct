@@ -32,6 +32,7 @@ var Shell = Types.Action {
                 fmt.Printf( "%s Invoking %s\n", Internal.Colorify( "|", "3e83d6" ), Internal.Colorify( line, "ada440" ) );
             }
             cmd := exec.Command( cmdline[ 0 ], cmdline[ 1: ]... );
+            cmd.Dir = cwd;
             cmd.Env = os.Environ();
             for key, val2 := range details[ "env" ].( map[ string ] any ) {
                 cmd.Env = append( cmd.Env, key + "=" + val2.( string ) )

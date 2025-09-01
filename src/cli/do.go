@@ -55,6 +55,7 @@ var Do = Types.Command {
                 Keywords: args,
                 TructFile: tructFile,
             },
+            WorkingDirectory: Internal.HandleError( os.Getwd() ),
         } );
     },
 };
