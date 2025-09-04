@@ -66,7 +66,6 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
                 Internal.ErrPrintf( "Fatal Error: Value of '%s' is not a valid workflow definition.\n", key );
                 os.Exit( 5 );
             }
-            Internal.MakeSure( dataAsMap[ "description" ], "Workflow with the name '" + wfName + "' doesn't have a description field." );
             Internal.MakeSure( dataAsMap[ "actions" ], "Workflow with the name '" + wfName + "' doesn't have an actions field." );
             expectsField := Internal.MakeCoalesce( dataAsMap[ "expects" ], []any {} );
             formattedExpects := []Types.WorkflowVariable {};
@@ -100,7 +99,7 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
             }
 
             result := Types.Workflow {
-                Description: Internal.Make[ string ]( dataAsMap[ "description" ] ),
+                Description: Internal.MakeCoalesce( dataAsMap[ "description" ], "No description provided." ),
                 Actions: Internal.Make[ []any ]( dataAsMap[ "actions" ] ),
                 Expects: formattedExpects,
             }
