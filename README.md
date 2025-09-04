@@ -5,9 +5,6 @@ Truct file (generally stored as `truct.yaml`) which is a YAML[^2] file, this way
 for humans! Compared to other systems like Make[^3], Truct aims to be simple and beginner-friendly
 for small projects.
 
-> [!WARNING]
-> Truct is currently Work-In-Progress. Please check [milestones](https://github.com/neotesk/truct/milestones) for more information.
-
 ### Installation
 You can install Truct manually through the [Releases](https://github.com/neotesk/truct/releases)
 section. Currently there are builds only for *Nix operating systems (Linux[^4], macOS[^6] etc)
