@@ -24,11 +24,12 @@ var Shell = Types.Action {
         "onlyErrors": false,
     },
     Action: func( cwd string, details map[ string ] any, params Types.TructWorkflowRunArgs ) error {
+        pset := params.CommandLineArgs.TructFile.Settings;
         for _, val := range Internal.Make[ []any ]( details[ "cmdlines" ] ) {
             executor := Internal.ParseCmdline( params.CommandLineArgs.TructFile.Settings.Shell );
             line := Internal.Make[ string ]( val );
             cmdline := append( executor, line );
-            if ( !params.CommandLineArgs.TructFile.Settings.Silent ) {
+            if ( !pset.Silent && pset.ReportActions ) {
                 fmt.Printf( "%s Invoking %s\n", Internal.Colorify( "|", "3e83d6" ), Internal.Colorify( line, "ada440" ) );
             }
             cmd := exec.Command( cmdline[ 0 ], cmdline[ 1: ]... );
@@ -37,10 +38,10 @@ var Shell = Types.Action {
             for key, val2 := range details[ "env" ].( map[ string ] any ) {
                 cmd.Env = append( cmd.Env, key + "=" + val2.( string ) )
             }
+            cmd.Stderr = os.Stderr
             if !params.CommandLineArgs.TructFile.Settings.Silent {
                 cmd.Stdin = os.Stdin
                 cmd.Stdout = os.Stdout
-                cmd.Stderr = os.Stderr
             }
             err := cmd.Run()
             if err != nil && !Internal.Make[ bool ]( details[ "skipOnError" ] ) {
