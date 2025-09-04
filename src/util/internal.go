@@ -12,6 +12,8 @@ import (
 	"os"
 	"path"
 	"strings"
+	"path/filepath"
+	"io"
 )
 
 func HandleError [ T any ] ( thing T, err error ) T {
@@ -90,4 +92,42 @@ func Unzip ( source, dest string ) error {
         create.ReadFrom( open );
     }
     return nil;
+}
+
+func Zip ( source, dest string, preserveRoot bool ) error {
+    file := HandleError( os.Create( dest ) );
+    defer file.Close();
+
+    writer := zip.NewWriter( file );
+    defer writer.Close();
+
+    newSource := source;
+    if preserveRoot {
+        newSource = filepath.Clean( filepath.Join( source, "../" ) );
+    }
+
+    walker := func( walkSrc string, info os.FileInfo, err error ) error {
+        if err != nil {
+            return err;
+        }
+        if info.IsDir() {
+            return nil;
+        }
+        file, err := os.Open( walkSrc );
+        if err != nil {
+            return err;
+        }
+        defer file.Close();
+        f, err := writer.Create( HandleError( filepath.Rel( newSource, walkSrc ) ) );
+        if err != nil {
+            return err;
+        }
+        _, err = io.Copy( f, file );
+        if err != nil {
+            return err;
+        }
+        return nil;
+    }
+
+    return filepath.Walk( source, walker );
 }

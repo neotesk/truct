@@ -21,7 +21,10 @@ var actions = []Types.Action {
     Move,
     Mkdir,
     Touch,
+    Remove,
     Get,
+    Zip,
+    Unzip,
 }
 
 func actionsToMap () map [ string ] Types.Action {

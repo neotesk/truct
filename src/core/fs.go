@@ -121,3 +121,27 @@ var Touch = Types.Action {
         }
     },
 }
+
+var Remove = Types.Action {
+    Name: "remove",
+    Expects: map[ string ] any {
+        "source": "build",
+    },
+    Action: func( cwd string, details map[ string ] any, params Types.TructWorkflowRunArgs ) error {
+        dst := Internal.Make[ string ]( details[ "source" ] );
+        shouldThrow := !Internal.Make[ bool ]( details[ "skipOnError" ] );
+        pset := params.CommandLineArgs.TructFile.Settings;
+        if ( !pset.Silent && pset.ReportActions ) {
+            fmt.Printf( "%s Removing entry at %s\n", Internal.Colorify( "|", "3e83d6" ), Internal.Colorify( dst, "ada440" ) );
+        }
+        output := os.RemoveAll(
+            path.Join( cwd, dst ),
+        );
+
+        if shouldThrow {
+            return output;
+        } else {
+            return nil;
+        }
+    },
+}
