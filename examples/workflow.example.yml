@@ -1,0 +1,29 @@
+# This is a Github Workflow example for
+# Truct. This will download a specific
+# version of Truct and lets you use it.
+
+name: Build
+
+on:
+    push:
+        tags:
+            - '*'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                uses: actions/checkout@v4
+            -
+                # You can use a different version too.
+                name: Fetch Truct Version 1.0.3
+                run: curl -Lo truct https://github.com/neotesk/truct/releases/download/1.0.3/truct.linux-amd64
+            -
+                name: Change permissions
+                run: chmod +x truct
+            -
+                # Run truct here. Replace
+                # this with "truct do"
+                name: Run truct
+                run: ./truct help

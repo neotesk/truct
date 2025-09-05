@@ -1,0 +1,13 @@
+# This is a truct workflow file example
+# You can skip project information btw.
+
+.build:
+    # Set description (optional)
+    description: Builds the project
+    # Add actions
+    actions:
+        -
+            # Basic shell action
+            action: shell
+            cmdlines:
+                - echo Hello World!
