@@ -3,6 +3,10 @@ project:
     description: Pretty minimal project manager.
     source: https://github.com/neotesk/truct
 
+depends:
+    commands:
+        - go
+
 .build-target:
     expects:
         -
