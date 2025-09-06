@@ -92,8 +92,8 @@ func RunProgram ( prog Types.Program, args Types.ArgumentsList ) {
         // Create a list of flags and arguments
         flags := "";
         arguments := []string{};
-        for key := range args.Flags {
-            flags += key;
+        for _, key := range prog.DefaultArgs.Flags {
+            flags += key.Name;
         }
         for key := range args.Arguments {
             arguments = append( arguments, "--" + key );
