@@ -176,12 +176,13 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
     return output;
 }
 
-func CreateRootVarTable ( tructFile Types.TructFile ) map[ string ] string {
+func CreateRootVarTable ( tructFile Types.TructFile, cwd string ) map[ string ] string {
     varTable := map[ string ] string {};
 
     // OS Variables
     varTable[ "os.type" ] = runtime.GOOS;
     varTable[ "os.arch" ] = runtime.GOARCH;
+    varTable[ "os.cwd" ]  = cwd;
 
     // Time
     varTable[ "rt.time" ] = time.Now().Format( time.RFC3339Nano );

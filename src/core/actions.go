@@ -72,7 +72,7 @@ func GetAction ( name string ) Types.Action {
                 // Now we will format variables based on environment
                 // variables, OS details and much more.
                 // Let's start with OS details first.
-                varTable := CreateRootVarTable( tructFile );
+                varTable := CreateRootVarTable( tructFile, params.WorkingDirectory );
 
                 RunWorkflow( Types.TructWorkflowRunArgs {
                     WorkflowName: wfName,
