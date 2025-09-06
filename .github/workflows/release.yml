@@ -21,7 +21,7 @@ jobs:
                 run: go build -o build/debug/truct src/args.go src/program.go src/main.go
             -
                 name: Build the release binaries
-                run: ./build/debug/truct do
+                run: ./build/debug/truct do build ${{ github.ref }}
             -
                 name: Create Release
                 id: create_release

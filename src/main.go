@@ -27,6 +27,11 @@ func main () {
                 ShortDesc: "Enables Silent Mode",
                 DefaultValue: false,
             },
+            {
+                Name: "v",
+                ShortDesc: "Prints version",
+                DefaultValue: false,
+            },
         },
         Arguments: []Types.Argument {
             {

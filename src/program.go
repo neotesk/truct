@@ -19,6 +19,9 @@ import (
 	Internal "github.com/neotesk/truct/src/util"
 )
 
+// This will be changed during build
+var versionString = "github-release";
+
 func StringChunk ( str string, totalLength int ) string {
     chunks := strings.Split( str, " " );
     newText := "";
@@ -74,6 +77,12 @@ func RunProgram ( prog Types.Program, args Types.ArgumentsList ) {
     commandDetails, commandExists := commandsList[ command ];
     if commandExists {
         commandDetails.Action( commandArgs, args.Flags, args.Arguments );
+        return;
+    }
+
+    // Display version if possible
+    if command == "version" || args.Flags[ "v" ] {
+        fmt.Println( versionString );
         return;
     }
 

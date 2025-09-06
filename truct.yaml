@@ -10,6 +10,9 @@ depends:
 .build-target:
     expects:
         -
+            name: "pkgversion"
+            optional: false
+        -
             name: archtarget
             optional: true
             value: "{{os.arch}}"
@@ -29,7 +32,7 @@ depends:
                 GOARCH: "{{$.archtarget}}"
                 GOOS: "{{$.ostarget}}"
             cmdlines:
-                - go build -o build/release/truct.{{$.output}} src/*.go
+                - go build -ldflags "-X main.versionString={{$.pkgversion}}" -o build/release/truct.{{$.output}} src/*.go
 
 .build-debug:
     description: 'Builds a target for debugging'
@@ -42,6 +45,11 @@ depends:
 
 .build:
     description: 'Builds the entire target in one command'
+    expects:
+        -
+            name: "pkgversion"
+            optional: true
+            value: "github-release"
     actions:
         -
             action: mkdir
@@ -50,23 +58,23 @@ depends:
             action: mkdir
             destination: build/release
         - build-debug
-        - build-target amd64 linux linux-amd64
-        - build-target 386 linux linux-i386
-        - build-target arm linux linux-arm32
-        - build-target arm64 linux linux-arm64
-        - build-target riscv64 linux linux-riscv64
-        - build-target mips linux linux-mips
-        - build-target mipsle linux linux-mipsle
-        - build-target mips64 linux linux-mips64
-        - build-target mips64le linux linux-mips64le
-        - build-target ppc64 linux linux-ppc64
-        - build-target loong64 linux linux-loong64
-        - build-target amd64 darwin darwin-amd64
-        - build-target arm64 darwin darwin-arm64
-        - build-target arm64 android android-arm64
-        - build-target amd64 freebsd freebsd-amd64
-        - build-target 386 freebsd freebsd-i386
-        - build-target arm64 freebsd freebsd-arm64
-        - build-target amd64 windows windows-amd64.exe
-        - build-target 386 windows windows-i386.exe
-        - build-target arm64 windows windows-arm64.exe
+        - build-target {{$.pkgversion}} amd64 linux linux-amd64
+        - build-target {{$.pkgversion}} 386 linux linux-i386
+        - build-target {{$.pkgversion}} arm linux linux-arm32
+        - build-target {{$.pkgversion}} arm64 linux linux-arm64
+        - build-target {{$.pkgversion}} riscv64 linux linux-riscv64
+        - build-target {{$.pkgversion}} mips linux linux-mips
+        - build-target {{$.pkgversion}} mipsle linux linux-mipsle
+        - build-target {{$.pkgversion}} mips64 linux linux-mips64
+        - build-target {{$.pkgversion}} mips64le linux linux-mips64le
+        - build-target {{$.pkgversion}} ppc64 linux linux-ppc64
+        - build-target {{$.pkgversion}} loong64 linux linux-loong64
+        - build-target {{$.pkgversion}} amd64 darwin darwin-amd64
+        - build-target {{$.pkgversion}} arm64 darwin darwin-arm64
+        - build-target {{$.pkgversion}} arm64 android android-arm64
+        - build-target {{$.pkgversion}} amd64 freebsd freebsd-amd64
+        - build-target {{$.pkgversion}} 386 freebsd freebsd-i386
+        - build-target {{$.pkgversion}} arm64 freebsd freebsd-arm64
+        - build-target {{$.pkgversion}} amd64 windows windows-amd64.exe
+        - build-target {{$.pkgversion}} 386 windows windows-i386.exe
+        - build-target {{$.pkgversion}} arm64 windows windows-arm64.exe
