@@ -318,28 +318,26 @@ func RunWorkflow ( wfMain Types.TructWorkflowRunArgs ) {
 
     // If the workflow is not the setup workflow, do
     // dependency checks
-    if wfMain.WorkflowName != "setup" {
-        deps := wfMain.CommandLineArgs.TructFile.Dependencies;
-        for _, cDep := range( deps.CommandDependencies ) {
-            formatted := FormatVariables( cDep, wfMain.ScopeVariables );
-            _, err := exec.LookPath( formatted );
-            if err != nil {
-                Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, Command '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
-                os.Exit( 4 );
-            }
+    deps := wfMain.CommandLineArgs.TructFile.Dependencies;
+    for _, cDep := range( deps.CommandDependencies ) {
+        formatted := FormatVariables( cDep, wfMain.ScopeVariables );
+        _, err := exec.LookPath( formatted );
+        if err != nil {
+            Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, Command '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
+            os.Exit( 4 );
         }
-        for _, fDep := range( deps.FileDependencies ) {
-            formatted := FormatVariables( fDep, wfMain.ScopeVariables );
-            exists, _ := Internal.FileSystem.Exists( formatted )
-            if !exists {
-                Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, File '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
-                os.Exit( 4 );
-            }
+    }
+    for _, fDep := range( deps.FileDependencies ) {
+        formatted := FormatVariables( fDep, wfMain.ScopeVariables );
+        exists, _ := Internal.FileSystem.Exists( formatted )
+        if !exists {
+            Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, File '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
+            os.Exit( 4 );
         }
     }
 
     // Now the local dependencies
-    deps := curWf.Dependencies;
+    deps = curWf.Dependencies;
     for _, cDep := range( deps.CommandDependencies ) {
         formatted := FormatVariables( cDep, wfMain.ScopeVariables );
         _, err := exec.LookPath( formatted );
