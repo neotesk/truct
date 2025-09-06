@@ -85,6 +85,27 @@ func MakeCoalesce [ T any ] ( thing any, def T ) T {
     return output;
 }
 
+func MakeArray [ T any ] ( thing any, def []T ) []T {
+    if thing == nil {
+        return def;
+    }
+    output, ok := thing.( []any );
+    if !ok {
+        ErrPrintf( "Fatal Error: Cannot convert object into desired type.\n" );
+        os.Exit( 1 );
+    }
+    retval := []T {};
+    for _, ret := range( output ) {
+        typed, ok := ret.( T );
+        if !ok {
+            ErrPrintf( "Fatal Error: Cannot convert object into desired type.\n" );
+            os.Exit( 1 );
+        }
+        retval = append( retval, typed );
+    }
+    return retval;
+}
+
 func MakeSure ( thing any, errMsg string ) {
     if thing == nil {
         fmt.Fprintln( os.Stderr, "Fatal Error: " + errMsg );

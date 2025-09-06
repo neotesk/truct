@@ -33,8 +33,14 @@ type Workflow struct {
     Actions []any
 }
 
+type DependencyList struct {
+    FileDependencies []string
+    CommandDependencies []string
+}
+
 type TructFileRaw struct {
     Project ProjectDetails
+    Dependencies DependencyList
     ProjectRaw map[ string ] any
     Settings map[ string ] any
     Environment map[ string ] any
@@ -44,6 +50,7 @@ type TructFileRaw struct {
 
 type TructFile struct {
     Project ProjectDetails
+    Dependencies DependencyList
     ProjectRaw map[ string ] any
     Settings TructSettings
     Environment map[ string ] any

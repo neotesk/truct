@@ -10,6 +10,7 @@ package Core
 import (
 	"maps"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -45,7 +46,7 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
 
     // Let's format the data to something that
     // we can use.
-    validKeys := []string{ "project", "settings", "env", "var" };
+    validKeys := []string{ "project", "settings", "env", "var", "depends" };
 
     tructFile := Types.TructFileRaw {
         Project: Types.ProjectDetails {},
@@ -54,6 +55,10 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
         Environment: map[ string ] any {},
         Variables: map[ string ] any {},
         Workflows: map[ string ] Types.Workflow {},
+        Dependencies: Types.DependencyList {
+            FileDependencies: []string {},
+            CommandDependencies: []string {},
+        },
     }
 
     for key := range data {
@@ -121,6 +126,9 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
                     tructFile.Environment = obj;
                 case "var":
                     tructFile.Variables = obj;
+                case "depends":
+                    tructFile.Dependencies.FileDependencies = Internal.MakeArray( obj[ "files" ], []string {} );
+                    tructFile.Dependencies.CommandDependencies = Internal.MakeArray( obj[ "commands" ], []string {} );
             }
         } else {
             // Seems like it's an invalid key
@@ -136,6 +144,7 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
         Variables: tructFile.Variables,
         Workflows: tructFile.Workflows,
         Settings: Types.TructSettings {},
+        Dependencies: tructFile.Dependencies,
     }
 
     // After we fetch the project details, we will now
@@ -293,6 +302,24 @@ func RunWorkflow ( wfMain Types.TructWorkflowRunArgs ) {
     if !ok {
         Internal.ErrPrintf( "Fatal Error: Workflow with the name '%s' does not exist.\n", wfMain.WorkflowName );
         os.Exit( 4 );
+    }
+
+    deps := wfMain.CommandLineArgs.TructFile.Dependencies;
+    for _, cDep := range( deps.CommandDependencies ) {
+        formatted := FormatVariables( cDep, wfMain.ScopeVariables );
+        _, err := exec.LookPath( formatted );
+        if err != nil {
+            Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, Command '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
+            os.Exit( 4 );
+        }
+    }
+    for _, fDep := range( deps.FileDependencies ) {
+        formatted := FormatVariables( fDep, wfMain.ScopeVariables );
+        exists, _ := Internal.FileSystem.Exists( formatted )
+        if !exists {
+            Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, File '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
+            os.Exit( 4 );
+        }
     }
 
     curScope := WorkflowScope( curWf, wfMain.ScopeVariables, wfMain.CommandLineArgs.Keywords );
