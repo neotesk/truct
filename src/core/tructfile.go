@@ -305,6 +305,11 @@ func RunWorkflow ( wfMain Types.TructWorkflowRunArgs ) {
         os.Exit( 4 );
     }
 
+    // For command dependencies to work even better, we
+    // will add environment overrides of PATH to the
+    // running binary itself.
+    os.Setenv( "PATH", wfMain.ScopeVariables[ "env.PATH" ] );
+
     deps := wfMain.CommandLineArgs.TructFile.Dependencies;
     for _, cDep := range( deps.CommandDependencies ) {
         formatted := FormatVariables( cDep, wfMain.ScopeVariables );
