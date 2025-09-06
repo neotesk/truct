@@ -1,0 +1,26 @@
+# Add node_modules/bin as PATH
+env:
+    PATH: "{{env.PATH}}:{{os.cwd}}/node_modules/.bin"
+
+# Check if dependency exists, in this
+# situation we check if npm exists in
+# the system
+depends:
+    commands:
+        - tsc
+
+# Setup command will download the dependency
+.setup:
+    actions:
+        -
+            action: shell
+            cmdlines:
+                - npm i
+
+# Build will use that dependency
+.build:
+    actions:
+        -
+            action: shell
+            cmdlines:
+                - tsc
