@@ -7,7 +7,7 @@ for small projects.
 
 ### Installation
 You can install Truct manually through the [Releases](https://github.com/neotesk/truct/releases)
-section. Currently there are builds only for *Nix operating systems (Linux[^4], macOS[^6] etc)
+section. Currently there are builds only for *Nix operating systems (Linux[^4], OpenBSD[^7], macOS[^6] etc)
 and Windows[^5].
 
 ### Why does this exist?
@@ -23,3 +23,4 @@ For more information, please visit the [Truct wiki](https://github.com/neotesk/t
 [^4]: [Linux](https://en.wikipedia.org/wiki/Linux) is an Unix-like Operating system.
 [^5]: [Windows](https://en.wikipedia.org/wiki/Microsoft_Windows) is a popular computer operating system used world-wide.
 [^6]: [macOS](https://en.wikipedia.org/wiki/MacOS) is a popular computer operating system used in Apple's Mac and Macbook computers.
+[^7]: [OpenBSD](https://en.wikipedia.org/wiki/OpenBSD) is a security-focused, free software, Unix-like operating system based on the Berkeley Software Distribution (BSD).
