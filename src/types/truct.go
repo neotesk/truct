@@ -26,16 +26,17 @@ type WorkflowVariable struct {
     Optional bool
 }
 
+type DependencyList struct {
+    FileDependencies []string
+    CommandDependencies []string
+}
+
 type Workflow struct {
     Name string
     Description string
     Expects []WorkflowVariable
+    Dependencies DependencyList
     Actions []any
-}
-
-type DependencyList struct {
-    FileDependencies []string
-    CommandDependencies []string
 }
 
 type TructFileRaw struct {

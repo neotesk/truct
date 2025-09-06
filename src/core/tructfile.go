@@ -103,10 +103,16 @@ func ReadTructFile ( filePath string, silent bool ) Types.TructFile {
                 formattedExpects = append( formattedExpects, output )
             }
 
+            obj := Internal.MakeCoalesce( dataAsMap[ "depends" ], map[ string ] any {} );
+
             result := Types.Workflow {
                 Description: Internal.MakeCoalesce( dataAsMap[ "description" ], "No description provided." ),
                 Actions: Internal.Make[ []any ]( dataAsMap[ "actions" ] ),
                 Expects: formattedExpects,
+                Dependencies: Types.DependencyList {
+                    FileDependencies: Internal.MakeArray( obj[ "files" ], []string {} ),
+                    CommandDependencies: Internal.MakeArray( obj[ "commands" ], []string {} ),
+                },
             }
 
             tructFile.Workflows[ wfName ] = result;
@@ -329,6 +335,25 @@ func RunWorkflow ( wfMain Types.TructWorkflowRunArgs ) {
                 Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, File '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
                 os.Exit( 4 );
             }
+        }
+    }
+
+    // Now the local dependencies
+    deps := curWf.Dependencies;
+    for _, cDep := range( deps.CommandDependencies ) {
+        formatted := FormatVariables( cDep, wfMain.ScopeVariables );
+        _, err := exec.LookPath( formatted );
+        if err != nil {
+            Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, Command '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
+            os.Exit( 4 );
+        }
+    }
+    for _, fDep := range( deps.FileDependencies ) {
+        formatted := FormatVariables( fDep, wfMain.ScopeVariables );
+        exists, _ := Internal.FileSystem.Exists( formatted )
+        if !exists {
+            Internal.ErrPrintf( "Fatal Error: Dependency cannot be resolved, File '%s' is not found in the system in '%s' workflow.\n", formatted, wfMain.WorkflowName );
+            os.Exit( 4 );
         }
     }
 
