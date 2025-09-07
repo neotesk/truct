@@ -26,7 +26,7 @@ __os=$( uname -s | awk '{print tolower($0)}' )
 __filename="truct.$__os-$__arch"
 
 echo "Fetching release for $__os-$__arch..."
-__link=$( curl -s https://api.github.com/repos/neotesk/truct/releases/latest | grep "browser_download_url.*$__filename" | cut -d ":" -f 2,3 | tr -d \" | tr -d " " )
+__link=$( curl -s "https://api.github.com/repos/neotesk/truct/releases/latest" | grep "browser_download_url.*$__filename" | cut -d ":" -f 2,3 | tr -d \" | tr -d " " )
 
 if [[ "$__link" == "" ]]; then
     echo "OS and architecture cannot be found in the releases. Cannot download." >&2
