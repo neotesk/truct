@@ -15,6 +15,11 @@ and Windows[^5].
 bash <(curl -sSL https://raw.githubusercontent.com/neotesk/truct/main/docs/install.sh)
 ```
 
+### Installation (Automatic for Termux)
+```
+bash <(curl -sSL https://raw.githubusercontent.com/neotesk/truct/main/docs/termux-install.sh)
+```
+
 ### Usage
 You can start with the help command like so:
 ```
