@@ -10,6 +10,16 @@ You can install Truct manually through the [Releases](https://github.com/neotesk
 section. Currently there are builds only for *Nix operating systems (Linux[^4], OpenBSD[^7], macOS[^6] etc)
 and Windows[^5].
 
+### Usage
+You can start with the help command like so:
+```
+truct help
+```
+After writing your workflow file, you can run workflows with this command:
+```
+truct do
+```
+
 ### Why does this exist?
 This exists because I like making small projects that will make my job easier and I don't want to
 adapt to many many other systems on the current market, so I like to combine my favorite parts of
