@@ -32,7 +32,7 @@ if [[ "$__link" == "" ]]; then
     echo "OS and architecture cannot be found in the releases. Cannot download." >&2
     exit 1;
 fi;
-curl -Lo $PREFIX/bin/truct \"$__link\"
+curl -Lo $PREFIX/bin/truct $__link
 chmod +x $PREFIX/bin/truct
 
 echo Done.
