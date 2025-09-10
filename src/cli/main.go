@@ -2,7 +2,7 @@
    Truct, Pretty minimal workflow manager.
    Open-Source, WTFPL License.
 
-   Copyright (C) 2025-20xx Neo <neotesk@airmail.cc>
+   Copyright (C) 2025-20xx Neo <ntsk@airmail.cc>
 */
 
 package Cli
