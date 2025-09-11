@@ -66,6 +66,10 @@ func GetAction ( name string ) Types.Action {
                 // Read the file.
                 tructFile := ReadTructFile( tructFileName, params.CommandLineArgs.TructFile.Settings.Silent );
 
+                // Override some configuration
+                tructFile.Settings.ReportActions = params.CommandLineArgs.TructFile.Settings.ReportActions;
+                tructFile.Settings.Silent = params.CommandLineArgs.TructFile.Settings.Silent;
+
                 // Get the workflow name
                 wfName := Internal.MakeCoalesce( details[ "workflow" ], "build" );
 
