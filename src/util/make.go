@@ -1,5 +1,5 @@
 /*
-   Truct, Pretty minimal workflow manager.
+   Truct, Pretty minimal workflow runner.
    Open-Source, WTFPL License.
 
    Copyright (C) 2025-20xx Neo <ntsk@airmail.cc>

@@ -1,6 +1,6 @@
 <h1>Truct<img align="left" width="42" height="42" alt="logo" src="https://github.com/user-attachments/assets/1a8052d1-924c-4799-9037-8a7c6ac5fc68" /></h1>
 
-Truct[^1] is a pretty minimal workflow manager, allowing you to store your tasks inside one single
+Truct[^1] is a pretty minimal workflow runner, allowing you to store your tasks inside one single
 Truct file (generally stored as `truct.yaml`) which is a YAML[^2] file, this way it will be readable
 for humans! Compared to other systems like Make[^3], Truct aims to be simple and beginner-friendly
 for small projects.
@@ -34,7 +34,7 @@ truct do
 This exists because I like making small projects that will make my job easier and I don't want to
 adapt to many many other systems on the current market, so I like to combine my favorite parts of
 these systems into one single unit, thus many of my projects have born into existence. Truct is
-one of them since I only needed a simple workflow manager that does basic work and nothing else.
+one of them since I only needed a simple workflow runner that does basic work and nothing else.
 For more information, please visit the [Truct wiki](https://github.com/neotesk/truct/wiki)
 
 [^1]: Truct comes from "construct" in English.

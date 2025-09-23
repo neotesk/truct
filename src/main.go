@@ -1,5 +1,5 @@
 /*
-   Truct, Pretty minimal workflow manager.
+   Truct, Pretty minimal workflow runner.
    Open-Source, WTFPL License.
 
    Copyright (C) 2025-20xx Neo <ntsk@airmail.cc>
@@ -52,7 +52,7 @@ func main () {
     // create a program
     program := Types.Program {
         Name: "truct",
-        Desc: "Truct is a minimal workflow manager, giving you the ability to store and run your custom workflows for projects.",
+        Desc: "Truct is a minimal workflow runner, giving you the ability to store and run your custom workflows for projects.",
         Footer: "For more information, please visit https://github.com/neotesk/truct/wiki",
         DefaultArgs: defaultArgs,
         Commands: Cli.Commands,
